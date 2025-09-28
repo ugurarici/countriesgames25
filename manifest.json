@@ -20,7 +20,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#6c5ce7",
+  "theme_color": "#667eea",
   "background_color": "#f8f9fa",
   "description": "Flag guessing game - Test your knowledge of world flags"
 }
