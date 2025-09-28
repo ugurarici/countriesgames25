@@ -68,7 +68,6 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
         setSelectedAnswer(answer);
 
         const currentQuestion = gameState.questions[gameState.currentQuestion];
-        const isCorrect = answer === currentQuestion.correctAnswer;
 
         // Sonucu kaydet
         const result = createGameResult(
