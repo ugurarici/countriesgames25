@@ -1,6 +1,6 @@
 {
-  "short_name": "Bayrak Oyunu",
-  "name": "Ülke Bayrağı Tahmin Oyunu",
+  "short_name": "Flag Game",
+  "name": "Country Flag Guessing Game",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,7 +20,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "description": "Ülke bayraklarını tahmin etme oyunu - PWA"
+  "theme_color": "#6c5ce7",
+  "background_color": "#f8f9fa",
+  "description": "Flag guessing game - Test your knowledge of world flags"
 }
