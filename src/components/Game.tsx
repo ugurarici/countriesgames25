@@ -107,12 +107,12 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
 
                 // Reset button states
                 setSelectedAnswer(null);
-                
+
                 // Force re-render to clear any button states
                 setTimeout(() => {
                     const buttons = document.querySelectorAll('.option-button');
                     buttons.forEach(button => {
-                        button.blur();
+                        (button as HTMLButtonElement).blur();
                         button.classList.remove('hover', 'active');
                     });
                 }, 50);
