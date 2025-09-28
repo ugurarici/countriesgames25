@@ -34,7 +34,7 @@ export const createQuestion = (countries: Country[]): Question => {
   ].sort(() => 0.5 - Math.random());
 
   return {
-    flag: correctCountry.flags.svg,
+    flag: correctCountry.flags.png, // Use PNG instead of SVG for better compatibility
     correctAnswer: correctCountry.name.common,
     options: allOptions
   };

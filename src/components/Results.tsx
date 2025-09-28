@@ -21,17 +21,17 @@ const Results: React.FC<ResultsProps> = ({
     const bestScore = loadBestScore();
     const bestPercentage = bestScore ? calculatePercentage(bestScore.score, bestScore.totalQuestions) : 0;
 
-    // Performans mesajı
+    // Performance message
     const getPerformanceMessage = (percentage: number): string => {
-        if (percentage >= 90) return "Mükemmel! 🎉";
-        if (percentage >= 80) return "Harika! 👏";
-        if (percentage >= 70) return "İyi iş! 👍";
-        if (percentage >= 60) return "Fena değil! 😊";
-        if (percentage >= 50) return "Orta seviye! 🤔";
-        return "Daha çok çalışmalısın! 💪";
+        if (percentage >= 90) return "Perfect! 🎉";
+        if (percentage >= 80) return "Great! 👏";
+        if (percentage >= 70) return "Good job! 👍";
+        if (percentage >= 60) return "Not bad! 😊";
+        if (percentage >= 50) return "Average! 🤔";
+        return "Keep practicing! 💪";
     };
 
-    // Skor rengi
+    // Score color
     const getScoreColor = (percentage: number): string => {
         if (percentage >= 80) return "#2ecc71";
         if (percentage >= 60) return "#f39c12";
@@ -41,7 +41,7 @@ const Results: React.FC<ResultsProps> = ({
     return (
         <div className="results-container">
             <div className="results-header">
-                <h1>🏆 Oyun Tamamlandı!</h1>
+                <h1>🏆 Game Completed!</h1>
                 <div className="score-display">
                     <div className="main-score">
                         <span className="score-number" style={{ color: getScoreColor(percentage) }}>
@@ -61,19 +61,19 @@ const Results: React.FC<ResultsProps> = ({
             {/* En iyi skor */}
             {bestScore && (
                 <div className="best-score">
-                    <h3>En İyi Skorunuz</h3>
+                    <h3>Your Best Score</h3>
                     <p>
                         {bestScore.score}/{bestScore.totalQuestions} (%{bestPercentage})
                     </p>
                     <p className="best-score-date">
-                        {new Date(bestScore.date).toLocaleDateString('tr-TR')}
+                        {new Date(bestScore.date).toLocaleDateString('en-US')}
                     </p>
                 </div>
             )}
 
             {/* Detaylı sonuçlar */}
             <div className="detailed-results">
-                <h3>Detaylı Sonuçlar</h3>
+                <h3>Detailed Results</h3>
                 <div className="results-list">
                     {results.map((result, index) => (
                         <div
@@ -81,24 +81,24 @@ const Results: React.FC<ResultsProps> = ({
                             className={`result-item ${result.isCorrect ? 'correct' : 'incorrect'}`}
                         >
                             <div className="result-question">
-                                <span className="question-number">Soru {result.questionNumber}</span>
+                                <span className="question-number">Question {result.questionNumber}</span>
                                 <div className="result-flag">
-                                    <img src={result.flag} alt="Bayrak" />
+                                    <img src={result.flag} alt="Flag" />
                                 </div>
                             </div>
                             <div className="result-answers">
                                 <div className="correct-answer">
-                                    <strong>Doğru:</strong> {result.correctAnswer}
+                                    <strong>Correct:</strong> {result.correctAnswer}
                                 </div>
                                 <div className="user-answer">
-                                    <strong>Senin Cevabın:</strong> {result.userAnswer}
+                                    <strong>Your Answer:</strong> {result.userAnswer}
                                 </div>
                             </div>
                             <div className="result-status">
                                 {result.isCorrect ? (
-                                    <span className="status-correct">✓ Doğru</span>
+                                    <span className="status-correct">✓ Correct</span>
                                 ) : (
-                                    <span className="status-incorrect">✗ Yanlış</span>
+                                    <span className="status-incorrect">✗ Wrong</span>
                                 )}
                             </div>
                         </div>
@@ -109,13 +109,13 @@ const Results: React.FC<ResultsProps> = ({
             {/* Aksiyon butonları */}
             <div className="action-buttons">
                 <button onClick={onPlayAgain} className="play-again-button">
-                    Tekrar Oyna
+                    Play Again
                 </button>
                 <button
                     onClick={() => window.location.reload()}
                     className="home-button"
                 >
-                    Ana Sayfaya Dön
+                    Back to Home
                 </button>
             </div>
         </div>

@@ -4,7 +4,6 @@ import { loadCountries } from '../services/api';
 import { createQuestions, createGameResult, calculateScore } from '../utils/gameLogic';
 import { saveScore, saveBestScore } from '../utils/storage';
 import { useBeforeUnload } from '../hooks/useBeforeUnload';
-import Confetti from 'react-confetti';
 import './Game.css';
 
 interface GameProps {
@@ -25,14 +24,13 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [showConfetti, setShowConfetti] = useState(false);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
     // Determine if there's an active game that should trigger confirmation dialog
     const isGameActive = gameState.isGameStarted && !gameState.isGameFinished && !loading;
 
     // Use the beforeunload hook to show confirmation when leaving during active game
-    useBeforeUnload(isGameActive, 'Aktif oyununuz var. Sayfadan ayrılmak istediğinizden emin misiniz?');
+    useBeforeUnload(isGameActive, 'You have an active game. Are you sure you want to leave?');
 
     // Oyunu başlatma
     const startGame = async () => {
@@ -40,10 +38,10 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
             setLoading(true);
             setError(null);
 
-            // Ülke verilerini yükle
+            // Load country data
             const countriesData = await loadCountries();
 
-            // Soruları oluştur
+            // Create questions
             const questions = createQuestions(countriesData, 20);
 
             setGameState(prev => ({
@@ -56,7 +54,7 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
             }));
 
         } catch (err) {
-            setError('Ülke verileri yüklenirken hata oluştu. Lütfen internet bağlantınızı kontrol edin.');
+            setError('Error loading country data. Please check your internet connection.');
             console.error('Error starting game:', err);
         } finally {
             setLoading(false);
@@ -82,16 +80,7 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
         const newResults = [...gameState.results, result];
         const newScore = calculateScore(newResults);
 
-        // Doğru cevap ise konfeti göster
-        if (isCorrect) {
-            setShowConfetti(true);
-            // Konfeti'yi 2 saniye sonra fadeout ile kaybolacak şekilde ayarla
-            setTimeout(() => {
-                setShowConfetti(false);
-            }, 2000);
-        }
-
-        // 1.5 saniye sonra bir sonraki soruya geç (konfeti için zaman tanı)
+        // Wait 1 second before moving to next question
         setTimeout(() => {
             if (gameState.currentQuestion + 1 >= gameState.totalQuestions) {
                 // Oyun bitti
@@ -119,7 +108,7 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
 
                 setSelectedAnswer(null);
             }
-        }, 1500);
+        }, 1000);
     };
 
     // Oyunu yeniden başlatma
@@ -134,14 +123,13 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
             isGameFinished: false
         });
         setSelectedAnswer(null);
-        setShowConfetti(false);
     };
 
     // Oyundan çıkma
     const handleExitGame = () => {
         // Aktif oyun varsa onay iste
         if (isGameActive) {
-            const confirmed = window.confirm('Aktif oyununuz var. Oyundan çıkmak istediğinizden emin misiniz?');
+            const confirmed = window.confirm('You have an active game. Are you sure you want to exit?');
             if (!confirmed) {
                 return; // Kullanıcı iptal ettiyse çıkma
             }
@@ -155,7 +143,7 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
         return (
             <div className="loading-container">
                 <div className="loading-spinner"></div>
-                <p>Ülke verileri yükleniyor...</p>
+                <p>Loading country data...</p>
             </div>
         );
     }
@@ -163,10 +151,10 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
     if (error) {
         return (
             <div className="error-container">
-                <h2>Hata</h2>
+                <h2>Error</h2>
                 <p>{error}</p>
                 <button onClick={startGame} className="retry-button">
-                    Tekrar Dene
+                    Try Again
                 </button>
             </div>
         );
@@ -175,10 +163,10 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
     if (!gameState.isGameStarted) {
         return (
             <div className="start-screen">
-                <h1>🏳️ Bayrak Oyunu</h1>
-                <p>20 farklı ülke bayrağını tanıyabilir misin?</p>
+                <h1>🏳️ Flag Game</h1>
+                <p>Can you identify 20 different country flags?</p>
                 <button onClick={startGame} className="start-button">
-                    Oyunu Başlat
+                    Start Game
                 </button>
             </div>
         );
@@ -187,10 +175,10 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
     if (gameState.isGameFinished) {
         return (
             <div className="game-finished">
-                <h2>Oyun Tamamlandı!</h2>
-                <p>Skorunuz: {gameState.score}/{gameState.totalQuestions}</p>
+                <h2>Game Completed!</h2>
+                <p>Your Score: {gameState.score}/{gameState.totalQuestions}</p>
                 <button onClick={restartGame} className="play-again-button">
-                    Tekrar Oyna
+                    Play Again
                 </button>
             </div>
         );
@@ -201,26 +189,12 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
 
     return (
         <div className="game-container">
-            {showConfetti && (
-                <div className="confetti-container">
-                    <Confetti
-                        numberOfPieces={300}
-                        width={window.innerWidth}
-                        height={window.innerHeight}
-                        recycle={false}
-                        gravity={0.3}
-                        initialVelocityY={30}
-                        initialVelocityX={15}
-                        colors={['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#FF9FF3', '#54A0FF']}
-                    />
-                </div>
-            )}
 
             {/* Oyundan Çık butonu - sadece oyun başladığında göster */}
             {gameState.isGameStarted && !gameState.isGameFinished && (
                 <div className="exit-game-container">
                     <button onClick={handleExitGame} className="exit-game-button">
-                        ← Oyundan Çık
+                        ← Exit Game
                     </button>
                 </div>
             )}
@@ -242,14 +216,21 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
             <div className="flag-container">
                 <img
                     src={currentQuestion.flag}
-                    alt="Ülke bayrağı"
+                    alt="Country flag"
                     className="flag-image"
+                    onError={(e) => {
+                        // If PNG fails, try SVG as fallback
+                        const target = e.target as HTMLImageElement;
+                        if (target.src.includes('.png')) {
+                            target.src = target.src.replace('.png', '.svg');
+                        }
+                    }}
                 />
             </div>
 
             {/* Soru */}
             <h2 className="question-text">
-                Bu bayrak hangi ülkeye aittir?
+                Which country does this flag belong to?
             </h2>
 
             {/* Seçenekler */}
@@ -282,7 +263,7 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
 
             {/* Skor */}
             <div className="score-container">
-                <span>Skor: {gameState.score}</span>
+                <span>Score: {gameState.score}</span>
             </div>
         </div>
     );
