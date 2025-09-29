@@ -1,21 +1,22 @@
 .App {
-  min-height: 100vh;
+  height: 100vh;
   background: #667eea;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 .app-container {
   width: 100%;
   max-width: 1000px;
+  height: 100vh;
   background: transparent;
   border-radius: 0;
   box-shadow: none;
-  overflow: visible;
-  min-height: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +29,14 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
