@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/countriesgames25/static/css/main.33775025.css",
+    "main.css": "/countriesgames25/static/css/main.ac555abc.css",
     "main.js": "/countriesgames25/static/js/main.b4ba0488.js",
     "static/js/453.4c104220.chunk.js": "/countriesgames25/static/js/453.4c104220.chunk.js",
     "index.html": "/countriesgames25/index.html",
-    "main.33775025.css.map": "/countriesgames25/static/css/main.33775025.css.map",
+    "main.ac555abc.css.map": "/countriesgames25/static/css/main.ac555abc.css.map",
     "main.b4ba0488.js.map": "/countriesgames25/static/js/main.b4ba0488.js.map",
     "453.4c104220.chunk.js.map": "/countriesgames25/static/js/453.4c104220.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.33775025.css",
+    "static/css/main.ac555abc.css",
     "static/js/main.b4ba0488.js"
   ]
 }
