@@ -199,14 +199,6 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
     return (
         <div className="game-container">
 
-            {/* Oyundan Çık butonu - sadece oyun başladığında göster */}
-            {gameState.isGameStarted && !gameState.isGameFinished && (
-                <div className="exit-game-container">
-                    <button onClick={handleExitGame} className="exit-game-button">
-                        ← Exit Game
-                    </button>
-                </div>
-            )}
 
             {/* İlerleme çubuğu */}
             <div className="progress-container">
@@ -274,6 +266,15 @@ const Game: React.FC<GameProps> = ({ onGameEnd, onExitGame }) => {
             <div className="score-container">
                 <span>Score: {gameState.score}</span>
             </div>
+
+            {/* Oyundan Çık butonu - sadece oyun başladığında göster */}
+            {gameState.isGameStarted && !gameState.isGameFinished && (
+                <div className="exit-game-container">
+                    <button onClick={handleExitGame} className="exit-game-button">
+                        Exit Game
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
